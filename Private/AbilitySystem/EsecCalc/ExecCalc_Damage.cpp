@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "AuraAbilityTypes.h"
 #include "AbilitySystem/EsecCalc/ExecCalc_Damage.h"
+#include "AuraAbilityTypes.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystemComponent.h"
@@ -70,8 +70,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 
-	// Get damage set by caller magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
+	// Get damage set by caller magnitude and damage type
+	float Damage = 0.f;
+	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FAuraGameplayTags::Get().DamageTypesToResistances)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
+		Damage += DamageTypeValue;
+	}
 
 	//Capture crit hit chance and damge on source
 	float SourceCriticalHitChance = 0.f;

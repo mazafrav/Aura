@@ -8,6 +8,9 @@ FAuraGameplayTags FAuraGameplayTags::GameplayTags;
 
 void FAuraGameplayTags::InitializeNativeGameplayTags()
 {
+	/*
+	*	PRIMARY ATTRIBUTES
+	*/
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Attributes.Primary.Strength"), FString("Increases physical damage"));
 	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get()
@@ -17,11 +20,17 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Primary_Vigor = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Attributes.Primary.Vigor"), FString("Increases Health"));
 
+	/*
+	*	VITAL ATTRIBUTES
+	*/
 	GameplayTags.Attributes_Vital_Health = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Attributes.Vital.Health"), FString("Current Health"));
 	GameplayTags.Attributes_Vital_Mana = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Attributes.Vital.Mana"), FString("Current Mana"));
 
+	/*
+	*	SECONDARY ATTRIBUTES
+	*/
 	GameplayTags.Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Attributes.Secondary.MaxHealth"), FString("Maximum amount of Health obtainable"));
 	GameplayTags.Attributes_Secondary_MaxMana = UGameplayTagsManager::Get()
@@ -43,6 +52,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Attributes.Secondary.ManaRegeneration"), FString("Amount of Mana regenerated every 1 second"));
 	
+	/*
+	*	INPUT ATTRIBUTES
+	*/
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("InputTag.LMB"), FString("InputTag for Left Mouse Button"));
 	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get()
@@ -56,8 +68,39 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_4 = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("InputTag.4"), FString("InputTag for 4 key"));
 
+	/*
+	*	DAMAGE TYPES
+	*/
 	GameplayTags.Damage = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Damage"), FString("Damage"));
+	GameplayTags.Damage_Fire = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Damage.Fire"), FString("Fire damage type"));
+	GameplayTags.Damage_Lightning = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Damage.Lightning"), FString("Lightning damage type"));
+	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Damage.Arcane"), FString("Arcane damage type"));
+	GameplayTags.Damage_Physical = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Damage.Physical"), FString("Physical damage type"));
+
+	/*
+	*	DAMAGE RESISTANCES
+	*/
+	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Attributes.Resistance.Fire"), FString("Fire damage resistance"));
+	GameplayTags.Attributes_Resistance_Lightning = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Attributes.Resistance.Lightning"), FString("Lightning damage resistance"));
+	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Attributes.Resistance.Arcane"), FString("Arcane damage resistance"));
+	GameplayTags.Attributes_Resistance_Physical = UGameplayTagsManager::Get()
+		.AddNativeGameplayTag(FName("Attributes.Resistance.Physical"), FString("Physical damage resistance"));
+
+	/*
+	* MAP OF DAMAGE TYPES TO RESISTANCES
+	*/
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get()
 		.AddNativeGameplayTag(FName("Effects.HitReact"), FString("HitReact"));
