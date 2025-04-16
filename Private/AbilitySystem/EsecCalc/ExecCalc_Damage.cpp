@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "AuraAbilityTypes.h"
 #include "AbilitySystem/EsecCalc/ExecCalc_Damage.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AuraGameplayTags.h"
@@ -91,6 +91,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const float EffectiveCriticalChance = FMath::Max<float>(TargetCriticalHitResistance, 0.f);
 	bool bCritical = (FMath::RandRange(0.f, 100.f) <= SourceCriticalHitChance - TargetCriticalHitResistance * .12f);
 	
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
+
 	// if success, double the damage.
 	Damage = bCritical ? Damage = SourceCriticalHitDamage + (2.f * Damage) : Damage;
 
@@ -104,8 +107,12 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
 	TargetBlockChance = FMath::Max<float>(TargetBlockChance, 0.f);
 
-	// if block, halve the damage.
+	// Block chance calculation
 	bool bBlocked = (FMath::RandRange(0.f, 100.f) < TargetBlockChance);
+
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+
+	// if block, halve the damage.
 	Damage = bBlocked ? Damage *= 0.5 : Damage;
 
 	// Capture target armor and armor penetration on source
