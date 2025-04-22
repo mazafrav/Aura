@@ -62,6 +62,16 @@ void AAuraEnemy::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AAuraEnemy::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}
+
 int32 AAuraEnemy::GetPlayerLevel()
 {
 	return Level;
@@ -79,7 +89,7 @@ void AAuraEnemy::BeginPlay()
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 
-	if (HasAuthority()) UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	if (HasAuthority()) UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 
 	UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject());
 	if (AuraUserWidget) 
